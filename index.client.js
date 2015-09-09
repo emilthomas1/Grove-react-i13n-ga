@@ -70,7 +70,8 @@ var hitTypes = {
         var requiredArgs = hitTypes[hitType].required;
         var optionalArgs = hitTypes[hitType].optional;
 
-        for (var arg in requiredArgs) {
+        for (var i = 0; i < requiredArgs.length; i++) {
+          var arg = requiredArgs[i];
           if (data.hasOwnProperty(arg)) {
             params.push(data[arg]);
           } else {
@@ -78,7 +79,8 @@ var hitTypes = {
           }
         }
 
-        for (var arg in optionalArgs) {
+        for (var i = 0; i < optionalArgs.length; i++) {
+          var arg = optionalArgs[i];
           if (data.hasOwnProperty(arg)) {
             params.push(data[arg]);
           }
