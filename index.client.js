@@ -36,7 +36,7 @@ var hitTypes = {
     // this one is weird
     exception: {
       required: [],
-      optional: ['data'],
+      optional: ['erroData'],
     },
   };
 
