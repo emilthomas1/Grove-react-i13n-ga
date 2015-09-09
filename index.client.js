@@ -15,6 +15,31 @@ var ReactI13nGoogleAnalytics = function (trackingId) {
     ga('create', trackingId, 'auto');
 };
 
+// https://developers.google.com/analytics/devguides/collection/analyticsjs/method-reference#send
+var hitTypes = {
+    event: {
+        required: ['category', 'action', 'label'],
+        optional: ['value'],
+    },
+    pageview: {
+        required: [],
+        optional: ['location', 'page', 'title'],
+    },
+    social: {
+        required: ['socialNetwork', 'socialAction', 'socialTarget'],
+        optional: [],
+    },
+    timing: {
+        required: ['timingCategory', 'timingVar', 'timingValue'],
+        optional: ['timingLabel'],
+    },
+    // this one is weird
+    exception: {
+        required: [],
+        optional: ['data'],
+    },
+};
+
 /**
  * get plugin object
  * @method getPlugin
@@ -24,6 +49,43 @@ ReactI13nGoogleAnalytics.prototype.getPlugin = function () {
     return {
         name: 'ga',
         eventHandlers: {
+            /**
+             * generic GA call handler
+             * 
+             * @method callSend
+             * @param {Object} payload
+             * @param {String} payload.type - e.g. 'event', 'pageview', 'exception'
+             * @param {Object} payload.data - data associated with type
+             * @param {Function} callback - ...the callback
+             */
+            callSend: function(payload, callback) {
+
+                if ( !(payload.type in hitTypes) ) {
+                    throw new Error('hit type ' + payload.type + ' not supported');
+                }
+
+                var hitType = payload.type;
+                var data = payload.data;
+                var params = ['send', payload.type];
+                var requiredArgs = hitTypes[hitType].required;
+                var optionalArgs = hitTypes[hitType].optional;
+
+                for (var arg in requiredArgs) {
+                    if (data.hasOwnProperty(arg)) {
+                        params.push(data[arg]);
+                    } else {
+                        throw new Error('missing argument for ' + hitType + ': ' + arg);
+                    }
+                }
+                
+                for (var arg in optionalArgs) {
+                    if (data.hasOwnProperty(arg)) {
+                        params.push(data[arg]);
+                    }
+                }
+                ga.apply(this, params);
+            },
+            
             /**
              * pageview handler
              * @method pageview
