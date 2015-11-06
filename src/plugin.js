@@ -2,17 +2,39 @@ var DEFAULT_CATEGORY = 'all';
 var DEFAULT_ACTION = 'click';
 var DEFAULT_LABEL = '';
 
+function initGoogleAnalytics(id) {
+  if (window.ga) {
+    return;
+  }
+
+  if (!id) {
+    console.warn('Google analytics ID is undefined');
+  }
+
+  window.ga = function() {}
+  window.ga.q = [];
+  window.ga.l = + new Date();
+
+  (function loadScript() {
+    var gaScript = document.createElement('script');
+    gaScript.async = true;
+    gaScript.type = 'text/javascript';
+    gaScript.src = '//www.google-analytics.com/analytics.js';
+
+    var head = document.getElementsByTagName('head')[0];
+    head.appendChild(gaScript);
+  })();
+
+  window.ga('create', id, 'auto');
+}
+
 /**
  * @class ReactI13nGoogleAnalytics
  * @param {String} tracking id
  * @constructor
  */
  var ReactI13nGoogleAnalytics = function (trackingId) {
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', trackingId, 'auto');
+  initGoogleAnalytics(trackingId)
 };
 
 // https://developers.google.com/analytics/devguides/collection/analyticsjs/method-reference#send
@@ -51,7 +73,7 @@ var hitTypes = {
     eventHandlers: {
       /**
        * generic GA call handler
-       * 
+       *
        * @method callSend
        * @param {Object} payload
        * @param {String} payload.type - e.g. 'event', 'pageview', 'exception'
@@ -87,7 +109,7 @@ var hitTypes = {
         }
         ga.apply(this, params);
       },
-      
+
       /**
        * pageview handler
        * @method pageview
@@ -114,7 +136,7 @@ var hitTypes = {
        */
        click: function (payload, callback) {
         var i13nNode = payload.i13nNode;
-        var params = ['send', 'event']
+        var params = ['send', 'event'];
         if (i13nNode) {
           var model = i13nNode.getMergedModel();
           params.push(model.category || DEFAULT_CATEGORY);
@@ -133,6 +155,6 @@ var hitTypes = {
       }
     }
   };
-}
+};
 
 module.exports = ReactI13nGoogleAnalytics;

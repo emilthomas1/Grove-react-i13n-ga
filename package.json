@@ -1,26 +1,25 @@
 {
-  "name": "react-i13n-ga",
+  "name": "@grove/react-i13n-ga",
   "description": "google analytics plugin for react i13n",
-  "version": "0.1.3",
-  "browser": "index.client.js",
-  "main": "index.server.js",
+  "version": "0.1.4",
+  "main": "src/plugin.js",
   "repository": {
     "type": "git",
-    "url": "git@github.com:kaesonho/react-i13n-ga.git"
+    "url": "git@github.com:grovelabs/react-i13n-ga.git"
   },
   "scripts": {
     "cover": "istanbul cover --dir ${COVERAGE_DIR:-artifacts} -- _mocha tests/unit --recursive --reporter tap",
-    "lint": "jshint",
+    "lint": "jshint src/",
     "test": "mocha tests/unit --recursive --reporter spec"
   },
   "devDependencies": {
     "chai": "^2.1.2",
-    "coveralls": "^2.11.1",
     "istanbul": "^0.3.0",
     "jsdom": "^3.0.0",
     "jshint": "^2.5.1",
     "mocha": "^2.0",
-    "react-i13n": "^0.1.8"
+    "react-i13n": "^0.1.8",
+    "sinon": "^1.17.2"
   },
   "keywords": [
     "react",
@@ -30,32 +29,15 @@
     "google-analytics",
     "google"
   ],
-  "precommit": [
-    "lint",
-    "test"
-  ],
-  "yhint": {
-    "excludes": [
-      "/dist/",
-      "/tests/"
-    ]
-  },
-  "jshintConfig": {
-    "node": true
-  },
   "bugs": {
-    "url": "https://github.com/kaesonho/react-i13n-ga/issues"
+    "url": "https://github.com/grovelabs/react-i13n-ga/issues"
   },
-  "homepage": "https://github.com/kaesonho/react-i13n-ga",
-  "directories": {
-    "test": "tests"
-  },
+  "homepage": "https://github.com/grovelabs/react-i13n-ga",
   "dependencies": {},
-  "author": "Kaeson Ho <geniepotato@gmail.com>",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://www.opensource.org/licenses/mit-license.php"
-    }
-  ]
+  "contributors": [
+    "Kaeson Ho <geniepotato@gmail.com>",
+    "Steph Northway <steph@grovelabs.io>",
+    "Louis DeScioli <louis@grovelabs.io>"
+  ],
+  "license": "MIT"
 }
